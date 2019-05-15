@@ -2,6 +2,8 @@ package com.example.kubernetes.gateway.domain
 import javax.persistence.CascadeType
 import javax.persistence.Column
 import javax.persistence.Entity
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn
 import javax.persistence.JoinTable
 import javax.persistence.ManyToMany
@@ -12,7 +14,9 @@ import javax.persistence.Table
 @Table(name="FREIGHT_MANAGEMENT")
 class Freight {
 
+	@Id
 	@Column(name="FREIGHT_MANAGEMENT_PK")
+	@GeneratedValue
 	Long id
 
 	@Column(name="FREIGHT_NAME")

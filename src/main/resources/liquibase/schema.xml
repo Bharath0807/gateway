@@ -69,9 +69,9 @@
 			</column>
 			<column name="FREIGHT_NAME" type="VARCHAR(100)"></column>
 		</createTable>
-		<addForeignKeyConstraint constraintName="FREIGHT_CUSTOMER"
+		<addForeignKeyConstraint constraintName="FREIGHT_CUSTOMER_CONSTRAINT"
 			referencedTableName="CUSTOMER_TYPE" baseColumnNames="CUSTOMER_FK"
-			baseTableName="CUSTOMER_TYPE" referencedColumnNames="CUSTOMER_TYPE_PK" />
+			baseTableName="FREIGHT_CUSTOMER" referencedColumnNames="CUSTOMER_TYPE_PK" />
 
 		<addForeignKeyConstraint constraintName="FREIGHT_CUSTOMER_TYPE"
 			referencedTableName="FREIGHT_MANAGEMENT" baseColumnNames="FREIGHT_FK"

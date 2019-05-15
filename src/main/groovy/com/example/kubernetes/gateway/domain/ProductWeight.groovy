@@ -2,6 +2,7 @@ package com.example.kubernetes.gateway.domain
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -11,6 +12,7 @@ class ProductWeight {
 
 	@Id
 	@Column(name="PRODUCT_WEIGHT_PK")
+	@GeneratedValue
 	Long id
 
 	@Column(name="PRODUCT_MIN_WEIGHT")
