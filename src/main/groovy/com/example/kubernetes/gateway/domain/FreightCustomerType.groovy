@@ -6,6 +6,7 @@ import javax.persistence.Entity
 import javax.persistence.Id
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne
 import javax.persistence.Table
 
@@ -25,6 +26,6 @@ class FreightCustomerType {
 	@JoinColumn(name="CUSTOMER_FK")
 	UserType userType
 	
-	@OneToOne(mappedBy="freightCustomer", cascade=CascadeType.ALL)
+	@OneToMany(mappedBy="freightCustomer")
 	Cost cost
 }

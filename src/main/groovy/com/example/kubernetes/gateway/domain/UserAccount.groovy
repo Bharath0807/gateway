@@ -18,7 +18,7 @@ class UserAccount {
 	Long id
 
 	@OneToOne
-	UserType customerType
+	UserType userType
 	
 	@OneToMany(mappedBy="userAccount")
 	List<Shipment> shipment

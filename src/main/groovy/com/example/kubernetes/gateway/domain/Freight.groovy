@@ -18,9 +18,6 @@ class Freight {
 	@Column(name="FREIGHT_NAME")
 	String freightName
 
-	@Column(name="FREIGHT_LOCATION")
-	String location
-
 //	@ManyToMany(cascade=CascadeType.ALL)
 //	@JoinTable(name="FREIGHT_CUSTOMER",joinColumns=[@JoinColumn(name = "FREIGHT_MANAGEMENT_FK")],inverseJoinColumns=[@JoinColumn(name="CUSTOMER_TYPE_ID")])
 //	List<CustomerType> customerType

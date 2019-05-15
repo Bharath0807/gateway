@@ -29,5 +29,8 @@ dependencies {
 	testCompile 'org.springframework.boot:spring-boot-starter-test'
 	// https://mvnrepository.com/artifact/com.h2database/h2
 	compile group: 'com.h2database', name: 'h2', version: '1.4.191'
+	// https://mvnrepository.com/artifact/org.liquibase/liquibase-core
+	compile group: 'org.liquibase', name: 'liquibase-core', version: '3.6.3'
+	
 	
 }

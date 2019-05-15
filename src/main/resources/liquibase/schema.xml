@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+	<changeSet id="1" author="kubernetes">
+		<createTable tableName="USER_ACCOUNT">
+			<column name="USER_ACCOUNT_PK" type="BIGINT" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="USER_TYPE_FK" type="BIGINT" />
+		</createTable>
+		<createTable tableName="SHIPMENT">
+			<column name="SHIPMENT_PK" type="BIGINT" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="FROM_ADDRESS" type="VARCHAR(500)"></column>
+			<column name="TO_ADDRESS" type="VARCHAR(500)"></column>
+			<column name="USER_ACCOUNT_FK" type="BIGINT"></column>
+			<column name="COST_FK" type="BIGINT"></column>
+		</createTable>
+		<createTable tableName="COST">
+			<column name="COST_PK" type="BIGINT" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="DELIVERY_TIME" type="VARCHAR(100)"></column>
+			<column name="DELIVERY_COST" type="BIGINT"></column>
+			<column name="PRODUCT_WEIGHT_FK" type="BIGINT"></column>
+			<column name="FREIGHT_FK" type="BIGINT"></column>
+		</createTable>
+		<createTable tableName="PRODUCT_WEIGHT">
+			<column name="PRODUCT_WEIGHT_PK" type="BIGINT"></column>
+			<column name="PRODUCT_MIN_WEIGHT" type="BIGINT"></column>
+			<column name="PRODUCT_MAX_WEIGHT" type="BIGINT"></column>
+		</createTable>
+		<createTable tableName="FREIGHT_CUSTOMER">
+			<column name="FREIGHT_CUSTOMER_PK" type="BIGINT"
+				autoIncrement="true">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="FREIGHT_FK" type="BIGINT"></column>
+			<column name="CUSTOMER_FK" type="BIGINT"></column>
+		</createTable>
+
+		<createTable tableName="CUSTOMER_TYPE">
+			<column name="CUSTOMER_TYPE_PK" type="BIGINT" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="CUSTOMER_TYPE_NAME" type="VARCHAR(100)"></column>
+		</createTable>
+
+		<createTable tableName="WEIGHTAGE">
+			<column name="WEIGHTAGE_PK" type="BIGINT" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="PRODUCT_COST" type="BIGINT"></column>
+			<column name="TIME_FEEDBACK" type="BIGINT"></column>
+			<column name="DELIVERY_FEEDBACK" type="BIGINT"></column>
+			<column name="TOTAL_TIME_FEEDBACK" type="BIGINT"></column>
+			<column name="TOTAL_DELIBERY_FEEDBACK" type="BIGINT"></column>
+		</createTable>
+
+		<createTable tableName="FREIGHT_MANAGEMENT">
+			<column name="FREIGHT_MANAGEMENT_PK" type="BIGINT"
+				autoIncrement="true">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="FREIGHT_NAME" type="VARCHAR(100)"></column>
+		</createTable>
+		<addForeignKeyConstraint constraintName="FREIGHT_CUSTOMER"
+			referencedTableName="CUSTOMER_TYPE" baseColumnNames="CUSTOMER_FK"
+			baseTableName="CUSTOMER_TYPE" referencedColumnNames="CUSTOMER_TYPE_PK" />
+
+		<addForeignKeyConstraint constraintName="FREIGHT_CUSTOMER_TYPE"
+			referencedTableName="FREIGHT_MANAGEMENT" baseColumnNames="FREIGHT_FK"
+			baseTableName="FREIGHT_CUSTOMER" referencedColumnNames="FREIGHT_MANAGEMENT_PK" />
+
+		<addForeignKeyConstraint constraintName="USER_SHIPMENT"
+			referencedTableName="USER_ACCOUNT" baseColumnNames="USER_ACCOUNT_FK"
+			baseTableName="SHIPMENT" referencedColumnNames="USER_ACCOUNT_PK" />
+		<addForeignKeyConstraint constraintName="WEIGHT_COST"
+			referencedTableName="PRODUCT_WEIGHT" baseColumnNames="PRODUCT_WEIGHT_FK"
+			baseTableName="COST" referencedColumnNames="PRODUCT_WEIGHT_PK" />
+		<addForeignKeyConstraint constraintName="COST_FREIGHT_CUSTOMER_TYPE"
+			referencedTableName="FREIGHT_CUSTOMER" baseColumnNames="FREIGHT_FK"
+			baseTableName="COST" referencedColumnNames="FREIGHT_FK" />
+	</changeSet>
+
+</databaseChangeLog>
