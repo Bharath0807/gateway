@@ -26,5 +26,5 @@ class Freight {
 //	List<CustomerType> customerType
 	
 	@OneToMany(mappedBy="freight")
-	List<FreightCustomerType> freightCustomer
+	List<FreightCustomerType> freightCustomerType
 }

@@ -23,7 +23,7 @@ class FreightCustomerType {
 	
 	@ManyToOne
 	@JoinColumn(name="CUSTOMER_FK")
-	UserType customer
+	UserType userType
 	
 	@OneToOne(mappedBy="freightCustomer", cascade=CascadeType.ALL)
 	Cost cost

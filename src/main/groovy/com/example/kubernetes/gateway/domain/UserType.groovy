@@ -21,6 +21,6 @@ class UserType {
 //	@ManyToMany(mappedBy="customerType")
 //	List<Freight> freight
 	
-	@OneToMany(mappedBy="customerType")
-	List<FreightCustomerType> customer
+	@OneToMany(mappedBy="userType")
+	List<FreightCustomerType> freightCustomer
 }

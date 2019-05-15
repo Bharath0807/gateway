@@ -12,7 +12,19 @@ class Weightage {
 	@Id
 	@Column(name="WEIGHTAGE_PK")
 	Long id
-	
-	@Column()
+
+	@Column(name="PRODUCT_COST")
 	Long productCost
+
+	@Column(name="TIME_FEEDBACK")
+	Long timeFeedback
+
+	@Column(name="DELIVERY_FEEDBACK")
+	Long deliveryFeedback
+
+	@Column(name="TOTAL_TIME_FEEDBACK")
+	Long totalTimeFeedback
+
+	@Column(name="TOTAL_DELIBERY_FEEDBACK")
+	Long totalDeliveryFeedback
 }
