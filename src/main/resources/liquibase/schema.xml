@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd
         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
-	<changeSet id="1" author="kubernetes">
-		<createTable tableName="USER_ACCOUNT">
+	<changeSet id="1" author="kubernetes" dbms="h2,mysql">
+		<createTable tableName="user_account">
 			<column name="USER_ACCOUNT_PK" type="BIGINT" autoIncrement="true">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
-			<column name="USER_TYPE_FK" type="BIGINT" />
+			<column name="CUSTOMER_TYPE_FK" type="BIGINT" />
+			<column name="USER_NAME" type="VARCHAR(100)"></column>
 		</createTable>
-		<createTable tableName="SHIPMENT">
+		<createTable tableName="shipment">
 			<column name="SHIPMENT_PK" type="BIGINT" autoIncrement="true">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
@@ -20,8 +20,9 @@
 			<column name="TO_ADDRESS" type="VARCHAR(500)"></column>
 			<column name="USER_ACCOUNT_FK" type="BIGINT"></column>
 			<column name="COST_FK" type="BIGINT"></column>
+			<column name="SHIPMENT_ORGANIZATION_FK" type="BIGINT"></column>
 		</createTable>
-		<createTable tableName="COST">
+		<createTable tableName="cost">
 			<column name="COST_PK" type="BIGINT" autoIncrement="true">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
@@ -29,63 +30,89 @@
 			<column name="DELIVERY_COST" type="BIGINT"></column>
 			<column name="PRODUCT_WEIGHT_FK" type="BIGINT"></column>
 			<column name="FREIGHT_FK" type="BIGINT"></column>
+			<column name="WEIGHTAGE_FK" type="BIGINT"></column>
 		</createTable>
-		<createTable tableName="PRODUCT_WEIGHT">
-			<column name="PRODUCT_WEIGHT_PK" type="BIGINT"></column>
+		<createTable tableName="product_weight">
+			<column name="PRODUCT_WEIGHT_PK" type="BIGINT" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
 			<column name="PRODUCT_MIN_WEIGHT" type="BIGINT"></column>
 			<column name="PRODUCT_MAX_WEIGHT" type="BIGINT"></column>
 		</createTable>
-		<createTable tableName="FREIGHT_CUSTOMER">
+		<createTable tableName="freight_customer">
 			<column name="FREIGHT_CUSTOMER_PK" type="BIGINT"
 				autoIncrement="true">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
 			<column name="FREIGHT_FK" type="BIGINT"></column>
 			<column name="CUSTOMER_FK" type="BIGINT"></column>
+			<column name="ORGANIZATION_FK" type="BIGINT"></column>
 		</createTable>
 
-		<createTable tableName="CUSTOMER_TYPE">
+		<createTable tableName="customer_type">
 			<column name="CUSTOMER_TYPE_PK" type="BIGINT" autoIncrement="true">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
 			<column name="CUSTOMER_TYPE_NAME" type="VARCHAR(100)"></column>
 		</createTable>
 
-		<createTable tableName="WEIGHTAGE">
+		<createTable tableName="weightage">
 			<column name="WEIGHTAGE_PK" type="BIGINT" autoIncrement="true">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
-			<column name="PRODUCT_COST" type="BIGINT"></column>
 			<column name="TIME_FEEDBACK" type="BIGINT"></column>
 			<column name="DELIVERY_FEEDBACK" type="BIGINT"></column>
 			<column name="TOTAL_TIME_FEEDBACK" type="BIGINT"></column>
 			<column name="TOTAL_DELIBERY_FEEDBACK" type="BIGINT"></column>
 		</createTable>
 
-		<createTable tableName="FREIGHT_MANAGEMENT">
+		<createTable tableName="freight_management">
 			<column name="FREIGHT_MANAGEMENT_PK" type="BIGINT"
 				autoIncrement="true">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
 			<column name="FREIGHT_NAME" type="VARCHAR(100)"></column>
 		</createTable>
+		<createTable tableName="organization">
+			<column name="ORGANIZATION_PK" type="BIGINT" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="ORGANIZATION_NAME" type="VARCHAR(100)"></column>
+		</createTable>
+
+		<addForeignKeyConstraint constraintName="COST_WEIGHT"
+			referencedTableName="weightage" baseColumnNames="WEIGHTAGE_FK"
+			baseTableName="cost" referencedColumnNames="WEIGHTAGE_PK" />
+		
+		<addForeignKeyConstraint constraintName="USER_CUSTOMER_TYPE"
+			referencedTableName="customer_type" baseColumnNames="CUSTOMER_TYPE_FK"
+			baseTableName="user_account" referencedColumnNames="CUSTOMER_TYPE_PK" />
+
+		<addForeignKeyConstraint constraintName="SHIPMENT_ORGANIZATION"
+			referencedTableName="organization" baseColumnNames="SHIPMENT_ORGANIZATION_FK"
+			baseTableName="shipment" referencedColumnNames="ORGANIZATION_PK" />
+
+		<addForeignKeyConstraint constraintName="ORGANIZATION_FREIGHT_CUSTOMER"
+			referencedTableName="organization" baseColumnNames="ORGANIZATION_FK"
+			baseTableName="freight_customer" referencedColumnNames="ORGANIZATION_PK" />
+
 		<addForeignKeyConstraint constraintName="FREIGHT_CUSTOMER_CONSTRAINT"
-			referencedTableName="CUSTOMER_TYPE" baseColumnNames="CUSTOMER_FK"
-			baseTableName="FREIGHT_CUSTOMER" referencedColumnNames="CUSTOMER_TYPE_PK" />
+			referencedTableName="customer_type" baseColumnNames="CUSTOMER_FK"
+			baseTableName="freight_customer" referencedColumnNames="CUSTOMER_TYPE_PK" />
 
 		<addForeignKeyConstraint constraintName="FREIGHT_CUSTOMER_TYPE"
-			referencedTableName="FREIGHT_MANAGEMENT" baseColumnNames="FREIGHT_FK"
-			baseTableName="FREIGHT_CUSTOMER" referencedColumnNames="FREIGHT_MANAGEMENT_PK" />
+			referencedTableName="freight_management" baseColumnNames="FREIGHT_FK"
+			baseTableName="freight_customer" referencedColumnNames="FREIGHT_MANAGEMENT_PK" />
 
 		<addForeignKeyConstraint constraintName="USER_SHIPMENT"
-			referencedTableName="USER_ACCOUNT" baseColumnNames="USER_ACCOUNT_FK"
-			baseTableName="SHIPMENT" referencedColumnNames="USER_ACCOUNT_PK" />
+			referencedTableName="user_account" baseColumnNames="USER_ACCOUNT_FK"
+			baseTableName="shipment" referencedColumnNames="USER_ACCOUNT_PK" />
 		<addForeignKeyConstraint constraintName="WEIGHT_COST"
-			referencedTableName="PRODUCT_WEIGHT" baseColumnNames="PRODUCT_WEIGHT_FK"
-			baseTableName="COST" referencedColumnNames="PRODUCT_WEIGHT_PK" />
+			referencedTableName="product_weight" baseColumnNames="PRODUCT_WEIGHT_FK"
+			baseTableName="cost" referencedColumnNames="PRODUCT_WEIGHT_PK" />
+		
 		<addForeignKeyConstraint constraintName="COST_FREIGHT_CUSTOMER_TYPE"
-			referencedTableName="FREIGHT_CUSTOMER" baseColumnNames="FREIGHT_FK"
-			baseTableName="COST" referencedColumnNames="FREIGHT_FK" />
+			referencedTableName="freight_customer" baseColumnNames="FREIGHT_FK"
+			baseTableName="cost" referencedColumnNames="FREIGHT_FK" />
 	</changeSet>
-
 </databaseChangeLog>

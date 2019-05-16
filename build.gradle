@@ -1,15 +1,9 @@
 buildscript {
-	repositories {
-		mavenCentral()
-	}
-	dependencies {
-		classpath 'org.springframework.boot:spring-boot-gradle-plugin:1.5.20.RELEASE'
-	}
+	repositories { mavenCentral() }
+	dependencies { classpath 'org.springframework.boot:spring-boot-gradle-plugin:1.5.20.RELEASE' }
 }
 
-plugins {
-	id 'groovy'
-}
+plugins { id 'groovy' }
 
 apply plugin: 'org.springframework.boot'
 apply plugin: 'eclipse'
@@ -18,19 +12,27 @@ group = 'com.example.kubernetes'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
 
-repositories {
-	mavenCentral()
-}
+repositories { mavenCentral() }
 
 dependencies {
 	compile 'org.springframework.boot:spring-boot-starter-data-jpa'
 	compile 'org.springframework.boot:spring-boot-starter-web'
-	compile 'org.codehaus.groovy:groovy'
+	// https://mvnrepository.com/artifact/org.codehaus.groovy/groovy
+	compile group: 'org.codehaus.groovy', name: 'groovy', version: '2.3.0'
+
 	testCompile 'org.springframework.boot:spring-boot-starter-test'
-	// https://mvnrepository.com/artifact/com.h2database/h2
-	compile group: 'com.h2database', name: 'h2', version: '1.4.191'
 	// https://mvnrepository.com/artifact/org.liquibase/liquibase-core
 	compile group: 'org.liquibase', name: 'liquibase-core', version: '3.6.3'
+	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-test
+	testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test'
+	// https://mvnrepository.com/artifact/org.spockframework/spock-core
+	testCompile group: 'org.spockframework', name: 'spock-core', version: '1.0-groovy-2.3'
+	// https://mvnrepository.com/artifact/org.spockframework/spock-spring
+	testCompile group: 'org.spockframework', name: 'spock-spring', version: '1.0-groovy-2.3'
 	
+	// https://mvnrepository.com/artifact/mysql/mysql-connector-java
+	// https://mvnrepository.com/artifact/mysql/mysql-connector-java
+	compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.16'	
 	
+
 }

@@ -8,6 +8,7 @@ import javax.persistence.Id
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
 import javax.persistence.OneToMany
+import javax.persistence.OneToOne;
 import javax.persistence.Table
 
 @Entity
@@ -35,5 +36,9 @@ class Cost {
 	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="PRODUCT_WEIGHT_FK")
 	ProductWeight productWeight
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "WEIGHTAGE_FK")
+	Weightage weightage 
 }
 

@@ -30,4 +30,8 @@ class Shipment {
 	@ManyToOne
 	@JoinColumn(name="COST_FK")
 	Cost cost
+	
+	@ManyToOne
+	@JoinColumn(name="SHIPMENT_ORGANIZATION_FK")
+	Organization organization
 }

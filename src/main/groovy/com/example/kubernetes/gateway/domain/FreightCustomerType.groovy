@@ -26,8 +26,12 @@ class FreightCustomerType {
 	
 	@ManyToOne
 	@JoinColumn(name="CUSTOMER_FK")
-	UserType userType
+	CustomerType customerType
 	
 	@OneToMany(mappedBy="freightCustomer")
 	List<Cost> cost
+	
+	@ManyToOne
+	@JoinColumn(name="ORGANIZATION_FK")
+	Organization organization
 }
