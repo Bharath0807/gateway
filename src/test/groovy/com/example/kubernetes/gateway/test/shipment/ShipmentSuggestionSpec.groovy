@@ -3,6 +3,7 @@ package com.example.kubernetes.gateway.test.shipment
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 import groovy.json.JsonOutput;
+import groovy.json.JsonSlurper;
 
 import org.springframework.http.MediaType
 
@@ -17,7 +18,8 @@ class ShipmentSuggestionSpec extends WebAppIntegrationBaseSpecification {
 		given: ' We have all the data configured for shipment'
 		when: ' The user is selecting one day delivery'
 		def res = this.mockMvc.perform(get("/api/shipment/suggestions").content(JsonOutput.toJson(data)).contentType(MediaType.APPLICATION_JSON))
-		String hello = res.andReturn().response.contentAsString()
+		def  response = new JsonSlurper().parseText(res.andReturn().response.contentAsString)
+		println "Response from the server is"+ response
 		
 		then: ' The suggestions will be displayed to the user'
 

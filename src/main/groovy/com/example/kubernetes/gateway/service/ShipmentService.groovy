@@ -20,55 +20,37 @@ class ShipmentService {
 	@Autowired
 	CostRepository costRepository
 
-	def WeightageForTime= [
+	def weightageForTime= [
 		"Tomorrow":50,
 		"General":35,
 		"Prime":50
 	]
+
 
 	// Has cost feedback and delivery feedback for the given weightage for time
 	def weightagePercentage = [50:[25, 25],35:[35, 30]]
 
 	def getSuggestions(data) {
 		def user = userAccountRespository.findOne(data.userId.asType(Long))
-		def all = costRepository.findAll()
-		def cost = costRepository.getCostForUser(data.productWeight.asType(Long),user.customerType.typeName)
+		// fetching the user contracts
+		def cost = costRepository.getCostForUserContract(data.productWeight.asType(Long),user.customerType.typeName)
+
+		//fetching all the contracts
+		def allCost = costRepository.getShipmentCosts(data.productWeight.asType(Long),user.customerType.typeName)
+		cost.addAll(allCost);
 		def retVal = calculateWeightForCost(cost, data)
-		println "Return value "
+		retVal
 	}
-	
+
 	def calculateWeightForCost(cost, data){
-		def timeWeightage = WeightageForTime.get(data.deliveryBy)
+		def timeWeightage = weightageForTime.get(data.deliveryTime)
 		def weightageForCostAndFeedback = weightagePercentage.get(timeWeightage)
 		def retVal = []
 		cost.each{
-			println "weightage"+it.weightage
-			println "it.freightCustomerType"+it.freightCustomer
 			def weight = it.weightage.timeFeedback*(timeWeightage) + it.weightage.deliveryFeedback*(weightageForCostAndFeedback.get(1)/100) + it.deliveryCost*(weightageForCostAndFeedback.get(0)/100)
-			retVal.add(["orgId":it.freightCustomer.organization.id,"weight":weight,"deliveryCost":it.deliveryCost])
+			retVal.add(["orgId":it.freightCustomer.organization.id,"weight":weight,"deliveryCost":it.deliveryCost,"orgName":it.freightCustomer.organization.orgName,"FreightName":it.freightCustomer.freight.freightName,"deliveryTime":it.deliveryTime])
 		}
-		
-		retVal.sort{a, b -> b.deliveryCost <=> a.deliveryCost}
-	}
 
-	def calculateWeight(weightage, weightageForTime) {
-
-		def weightageForCostAndFeedback = weightagePercentage.get(weightageForTime)
-		def retVal = [:] as LinkedHashMap
-		weightage.each{
-			def weight = (weightageForCostAndFeedback.get(0)/100)*it.productCost + (weightageForCostAndFeedback.get(1)/100)*it.deliveryFeedback +(1)/100 + (weightageForTime/100)*it.timeFeedback
-			retVal.putAll(["orgId":weight.organization.id,"weight":weight])
-		}
-		getSuggestedOrganizations(retVal)
-	}
-
-	def getSuggestedOrganizations(value) {
-		def organizations = []
-		value.sort{a, b -> a.weight <=> b.weight}
-		value.eachWithIndex{i, index->
-			if(index<=1)
-				organizations.add(i.orgId)
-		}
-		organizations
+		retVal.sort{a, b -> b.weight <=> a.weight}
 	}
 }

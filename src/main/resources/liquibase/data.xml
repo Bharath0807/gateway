@@ -121,50 +121,169 @@
 			<column name="WEIGHTAGE_FK" value="3"></column>
 		</insert>
 		<insert tableName="cost">
-			<column name="DELIVERY_TIME" value="Tomorrow"></column>
+			<column name="DELIVERY_TIME" value="One day"></column>
 			<column name="DELIVERY_COST" value="50"></column>
 			<column name="FREIGHT_FK" value="1"></column>
 			<column name="PRODUCT_WEIGHT_FK" value="1"></column>
 			<column name="WEIGHTAGE_FK" value="4"></column>
 		</insert>
 		<insert tableName="cost">
-			<column name="DELIVERY_TIME" value="Tomorrow"></column>
+			<column name="DELIVERY_TIME" value="One day"></column>
 			<column name="DELIVERY_COST" value="55"></column>
 			<column name="FREIGHT_FK" value="1"></column>
 			<column name="PRODUCT_WEIGHT_FK" value="2"></column>
 			<column name="WEIGHTAGE_FK" value="5"></column>
 		</insert>
 		<insert tableName="cost">
-			<column name="DELIVERY_TIME" value="Tomorrow"></column>
+			<column name="DELIVERY_TIME" value="One day"></column>
 			<column name="DELIVERY_COST" value="60"></column>
 			<column name="FREIGHT_FK" value="1"></column>
 			<column name="PRODUCT_WEIGHT_FK" value="3"></column>
 			<column name="WEIGHTAGE_FK" value="6"></column>
 		</insert>
-		<insert tableName="cost">
-			<column name="DELIVERY_TIME" value="Prime"></column>
-			<column name="DELIVERY_COST" value="40"></column>
-			<column name="FREIGHT_FK" value="1"></column>
-			<column name="PRODUCT_WEIGHT_FK" value="1"></column>
-			<column name="WEIGHTAGE_FK" value="7"></column>
-		</insert>
-		<insert tableName="cost">
-			<column name="DELIVERY_TIME" value="Prime"></column>
-			<column name="DELIVERY_COST" value="45"></column>
-			<column name="FREIGHT_FK" value="1"></column>
-			<column name="PRODUCT_WEIGHT_FK" value="2"></column>
-			<column name="WEIGHTAGE_FK" value="8"></column>
-		</insert>
-		<insert tableName="cost">
-			<column name="DELIVERY_TIME" value="Prime"></column>
-			<column name="DELIVERY_COST" value="50"></column>
-			<column name="FREIGHT_FK" value="1"></column>
-			<column name="PRODUCT_WEIGHT_FK" value="3"></column>
-			<column name="WEIGHTAGE_FK" value="9"></column>
-		</insert>
+		<!-- <insert tableName="cost"> <column name="DELIVERY_TIME" value="Two 
+			day"></column> <column name="DELIVERY_COST" value="40"></column> <column 
+			name="FREIGHT_FK" value="1"></column> <column name="PRODUCT_WEIGHT_FK" value="1"></column> 
+			<column name="WEIGHTAGE_FK" value="7"></column> </insert> <insert tableName="cost"> 
+			<column name="DELIVERY_TIME" value="Two day"></column> <column name="DELIVERY_COST" 
+			value="45"></column> <column name="FREIGHT_FK" value="1"></column> <column 
+			name="PRODUCT_WEIGHT_FK" value="2"></column> <column name="WEIGHTAGE_FK" 
+			value="8"></column> </insert> <insert tableName="cost"> <column name="DELIVERY_TIME" 
+			value="Two day"></column> <column name="DELIVERY_COST" value="50"></column> 
+			<column name="FREIGHT_FK" value="1"></column> <column name="PRODUCT_WEIGHT_FK" 
+			value="3"></column> <column name="WEIGHTAGE_FK" value="9"></column> </insert> -->
 		<insert tableName="user_account">
 			<column name="USER_NAME" value="user1"></column>
 			<column name="CUSTOMER_TYPE_FK" value="1"></column>
 		</insert>
+	</changeSet>
+	<changeSet id="20190520220190000" author="kubernetes">
+
+		<insert tableName="organization">
+			<column name="ORGANIZATION_NAME" value="Fujifilm"></column>
+		</insert>
+
+		<insert tableName="freight_customer">
+			<column name="FREIGHT_FK" value="2"></column>
+			<column name="CUSTOMER_FK" value="1"></column>
+			<column name="ORGANIZATION_FK" value="2"></column>
+		</insert>
+
+		<insert tableName="freight_customer">
+			<column name="FREIGHT_FK" value="1"></column>
+			<column name="CUSTOMER_FK" value="2"></column>
+			<column name="ORGANIZATION_FK" value="2"></column>
+		</insert>
+		<insert tableName="product_weight">
+			<column name="PRODUCT_MIN_WEIGHT" value="1"></column>
+			<column name="PRODUCT_MAX_WEIGHT" value="25"></column>
+		</insert>
+		<insert tableName="product_weight">
+			<column name="PRODUCT_MIN_WEIGHT" value="25"></column>
+			<column name="PRODUCT_MAX_WEIGHT" value="50"></column>
+		</insert>
+		<insert tableName="product_weight">
+			<column name="PRODUCT_MIN_WEIGHT" value="51"></column>
+			<column name="PRODUCT_MAX_WEIGHT" value="75"></column>
+		</insert>
+		<insert tableName="weightage">
+			<column name="TIME_FEEDBACK" value="1"></column>
+			<column name="DELIVERY_FEEDBACK" value="1"></column>
+			<column name="TOTAL_TIME_FEEDBACK" value="10"></column>
+			<column name="TOTAL_DELIBERY_FEEDBACK" value="10"></column>
+		</insert>
+		<insert tableName="weightage">
+			<column name="TIME_FEEDBACK" value="5"></column>
+			<column name="DELIVERY_FEEDBACK" value="5"></column>
+			<column name="TOTAL_TIME_FEEDBACK" value="10"></column>
+			<column name="TOTAL_DELIBERY_FEEDBACK" value="10"></column>
+		</insert>
+		<insert tableName="weightage">
+			<column name="TIME_FEEDBACK" value="10"></column>
+			<column name="DELIVERY_FEEDBACK" value="10"></column>
+			<column name="TOTAL_TIME_FEEDBACK" value="10"></column>
+			<column name="TOTAL_DELIBERY_FEEDBACK" value="10"></column>
+		</insert>
+
+		<insert tableName="weightage">
+			<column name="TIME_FEEDBACK" value="0"></column>
+			<column name="DELIVERY_FEEDBACK" value="10"></column>
+			<column name="TOTAL_TIME_FEEDBACK" value="10"></column>
+			<column name="TOTAL_DELIBERY_FEEDBACK" value="10"></column>
+		</insert>
+		<insert tableName="weightage">
+			<column name="TIME_FEEDBACK" value="0"></column>
+			<column name="DELIVERY_FEEDBACK" value="10"></column>
+			<column name="TOTAL_TIME_FEEDBACK" value="10"></column>
+			<column name="TOTAL_DELIBERY_FEEDBACK" value="10"></column>
+		</insert>
+		<insert tableName="weightage">
+			<column name="TIME_FEEDBACK" value="0"></column>
+			<column name="DELIVERY_FEEDBACK" value="10"></column>
+			<column name="TOTAL_TIME_FEEDBACK" value="10"></column>
+			<column name="TOTAL_DELIBERY_FEEDBACK" value="10"></column>
+		</insert>
+		<insert tableName="weightage">
+			<column name="TIME_FEEDBACK" value="50"></column>
+			<column name="DELIVERY_FEEDBACK" value="10"></column>
+			<column name="TOTAL_TIME_FEEDBACK" value="10"></column>
+			<column name="TOTAL_DELIBERY_FEEDBACK" value="10"></column>
+		</insert>
+		<insert tableName="weightage">
+			<column name="TIME_FEEDBACK" value="50"></column>
+			<column name="DELIVERY_FEEDBACK" value="10"></column>
+			<column name="TOTAL_TIME_FEEDBACK" value="10"></column>
+			<column name="TOTAL_DELIBERY_FEEDBACK" value="10"></column>
+		</insert>
+		<insert tableName="weightage">
+			<column name="TIME_FEEDBACK" value="50"></column>
+			<column name="DELIVERY_FEEDBACK" value="10"></column>
+			<column name="TOTAL_TIME_FEEDBACK" value="10"></column>
+			<column name="TOTAL_DELIBERY_FEEDBACK" value="10"></column>
+		</insert>
+		<insert tableName="cost">
+			<column name="DELIVERY_TIME" value="General"></column>
+			<column name="DELIVERY_COST" value="10"></column>
+			<column name="FREIGHT_FK" value="2"></column>
+			<column name="PRODUCT_WEIGHT_FK" value="1"></column>
+			<column name="WEIGHTAGE_FK" value="1"></column>
+		</insert>
+		<insert tableName="cost">
+			<column name="DELIVERY_TIME" value="General"></column>
+			<column name="DELIVERY_COST" value="12"></column>
+			<column name="FREIGHT_FK" value="2"></column>
+			<column name="PRODUCT_WEIGHT_FK" value="2"></column>
+			<column name="WEIGHTAGE_FK" value="2"></column>
+		</insert>
+		<insert tableName="cost">
+			<column name="DELIVERY_TIME" value="General"></column>
+			<column name="DELIVERY_COST" value="14"></column>
+			<column name="FREIGHT_FK" value="2"></column>
+			<column name="PRODUCT_WEIGHT_FK" value="3"></column>
+			<column name="WEIGHTAGE_FK" value="3"></column>
+		</insert>
+		<insert tableName="cost">
+			<column name="DELIVERY_TIME" value="One day"></column>
+			<column name="DELIVERY_COST" value="16"></column>
+			<column name="FREIGHT_FK" value="2"></column>
+			<column name="PRODUCT_WEIGHT_FK" value="1"></column>
+			<column name="WEIGHTAGE_FK" value="4"></column>
+		</insert>
+		<insert tableName="cost">
+			<column name="DELIVERY_TIME" value="One day"></column>
+			<column name="DELIVERY_COST" value="18"></column>
+			<column name="FREIGHT_FK" value="2"></column>
+			<column name="PRODUCT_WEIGHT_FK" value="2"></column>
+			<column name="WEIGHTAGE_FK" value="5"></column>
+		</insert>
+		<insert tableName="cost">
+			<column name="DELIVERY_TIME" value="One day"></column>
+			<column name="DELIVERY_COST" value="20"></column>
+			<column name="FREIGHT_FK" value="2"></column>
+			<column name="PRODUCT_WEIGHT_FK" value="3"></column>
+			<column name="WEIGHTAGE_FK" value="6"></column>
+		</insert>
+
+
 	</changeSet>
 </databaseChangeLog>
