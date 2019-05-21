@@ -1,0 +1,29 @@
+server:
+  port: 8978
+  
+liquibase:
+  enabled: true
+  change-log: "classpath:liquibase/master.xml"
+
+spring:
+ datasource:
+  dataSourceClassName: org.h2.jdbcx.JdbcDataSource
+  url: jdbc:h2:mem:test;MODE=MYSQL;DB_CLOSE_ON_EXIT=FALSE;DB_CLOSE_DELAY=-1;
+  driverClassName: org.h2.Driver
+  platform: h2
+  username: 
+  password: 
+ jpa:
+   database-platform: org.hibernate.dialect.H2Dialect
+   database: H2
+   openInView: true
+   show_sql: true
+   generate-ddl: false
+   hibernate:
+     ddl-auto: validate
+     naming-strategy: org.hibernate.cfg.EJB3NamingStrategy
+   properties:
+     hibernate.cache.use_second_level_cache: false
+     hibernate.cache.use_query_cache: false
+     hibernate.generate_statistics: true
+     hibernate.hbm2ddl.auto: validate

@@ -5,16 +5,59 @@
 import React from 'react';
 import  ReactDOM  from 'react-dom';
 import client  from './client';
-import Select from 'react-select';
+import Select from 'react-dropdown-select';
 
-const deliveryTime = [{ label: "General", value: 1 },{ label: "Tomorrow", value: 2 }];
-class Shipment extends React.Component
-{
+const deliveryTime = [{ label: "General", value: "General" },{ label: "Tomorrow", value: "Tomorrow" }];
 
+class Suggestion extends React.Component {
 
 	constructor(props) {
 		super(props);
-		 this.state = {productWeight: '',userId:'',fromAddress:'',toAddress:'',deliveryTime:''};
+		
+	}
+	render() {
+		const suggestions = this.props.data.response.map(suggestion =>
+			<DisplaySuggestion  data={suggestion}/>
+		);
+		console.log("Response in suggestion is", this.props.data);
+		return (
+			<table class="table table-striped">
+			<tbody>
+					<tr>
+						<th>Freight Name</th>
+						<th>Delivery Cost</th>
+						<th>Organization Name</th>
+						<th>Feedback</th>
+						<th>Delivery Time</th>
+						<th>Suggested</th>
+					</tr>
+					{suggestions}
+			</tbody>
+			</table>
+		)
+	}
+}
+
+class DisplaySuggestion extends React.Component{
+	render() {
+		return (
+			<tr>
+				<td>{this.props.data.freightName}</td>
+				<td>${this.props.data.deliveryCost}</td>
+				<td>{this.props.data.orgName}({this.props.data.type})</td>
+				<td>{this.props.data.timeFeedback}</td>
+				<td>{this.props.data.deliveryTime}</td>
+				<td>{this.props.data.isSuggested?<span class="glyphicon glyphicon-ok"></span>:<span class="glyphicon glyphicon-remove"></span>}</td>
+			</tr>
+		)
+	}
+}
+
+class Shipment extends React.Component
+{
+	constructor(props) {
+		super(props);
+		 this.state = {productWeight: '',userId:'',fromAddress:'',toAddress:'',deliveryTime:'', response:''};
 		 this.updateProductWeight = this.updateProductWeight.bind(this);
 		 this.updateFromAddress = this.updateFromAddress.bind(this);
 		 this.updateToAddress = this.updateToAddress.bind(this);
@@ -37,26 +80,35 @@ class Shipment extends React.Component
    	}
    	
    	updateDeliveryTime(e) {
-   	  this.setState({deliveryTime: e.label});
+   	  this.setState({deliveryTime: e.target.value});
    	}
    
 	render() {
 		return (
 		 <form>
-		 	<div>User Id</div>
-			 <input type = "text" value = {this.state.userId} 
+		 	<div class="col-sm-6">User Id</div>
+			 <input class="form-control"  type = "text" value = {this.state.userId} 
                onChange = {this.updateUserId} />
-		 	 <div>Product weight</div>
-			 <input type = "text" value = {this.state.productWeight} 
+		 	 <div class="col-sm-6" >Product weight</div>
+			 <input type = "text" class="form-control" value = {this.state.productWeight} 
                onChange = {this.updateProductWeight	} />
-            <div>From Address</div>
-			 <input type = "text" value = {this.state.fromAddress} 
+            <div class="col-sm-6">From Address</div>
+			 <input type = "text" class="form-control" value = {this.state.fromAddress} 
                onChange = {this.updateFromAddress	} />
-             <div>To Address</div>
-			 <input type = "text" value = {this.state.toAddress} 
+             <div class="col-sm-6">To Address</div>
+			 <input type = "text" class="form-control" value = {this.state.toAddress} 
                onChange = {this.updateToAddress} />
-             <Select options={ deliveryTime } onChange={this.updateDeliveryTime}/>
+	          <div class="col-sm-6">Select the delivery time:</div>
+	          <select value={this.state.deliveryTime} onChange={this.updateDeliveryTime}>
+	          <option value="Empty"> </option>
+	            <option value="Tomorrow">Tomorrow</option>
+	            <option value="General">General</option>
+	          </select>
+     			
              <button type="button" onClick={this.getSuggestion}>Get Suggestions</button>
+             {
+				this.state.response?<Suggestion data={this.state}/>:null
+			 }
          </form>
 		)
 	}
@@ -70,93 +122,16 @@ class Shipment extends React.Component
    				 'Content-Type': 'application/json',
   			},
  			 body: JSON.stringify(this.state)
-		});
+		}).then(res => res.json())
+      .then((result) => {
+      		this.setState({response:result});
+        	console.log("Response is ", result);
+        });
     }
 }
 
-class App extends React.Component {
-
-	constructor(props) {
-		super(props);
-		this.state = {employees: []};
-	}
-
-	componentDidMount() {
-		client({method: 'GET', path: '/api/fdfsdf'}).done(response => {
-			console.log(response);
-			this.setState({employees: response.entity});
-		});
-	}
-
-	render() {
-		return (
-			<EmployeeList employees={this.state.employees}/>
-		)
-	}
-}
-// end::app[]
-	
-class EmployeeList extends React.Component{
-
-	constructor(props)
-	{	
-		super(props);
-		this.handleClick = this.handleClick.bind(this);
-	}
-	
-	handleClick() {
-		console.log("Button Clicked");
-	}
-	  
-	render() {
-		const employees = this.props.employees.map(employee =>
-			<Employee  employee={employee}/>
-		);
-		return (
-			<table>
-				<tbody>
-					<tr>
-						<th>Test Name</th>
-						<th>Last Name</th>
-						<th>Description</th>
-					</tr>
-					{employees}
-				</tbody>
-				<button onClick={this.handleClick}>Click</button>
-			</table>
-			
-		)
-	}
-}
-
-
-class First extends React.Component{
-	render() {
-		return (
-			<h1>Hello World</h1>
-		)
-	}
-}
-
-
-class Employee extends React.Component{
-	render() {
-		return (
-			<tr>
-				<td>{this.props.employee.firstName}</td>
-				<td>{this.props.employee.lastName}</td>
-				<td>{this.props.employee.description}</td>
-				<td>{this.props.employee.description}</td>
-			</tr>
-		)
-	}
-}
-// end::employee[]
-
-// tag::render[]
 ReactDOM.render(
 	<Shipment />,
 	document.getElementById('react')
 )
-// end::render[]
 

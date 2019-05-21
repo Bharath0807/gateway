@@ -29,6 +29,8 @@ dependencies {
 	testCompile group: 'org.spockframework', name: 'spock-core', version: '1.0-groovy-2.3'
 	// https://mvnrepository.com/artifact/org.spockframework/spock-spring
 	testCompile group: 'org.spockframework', name: 'spock-spring', version: '1.0-groovy-2.3'
+	// https://mvnrepository.com/artifact/com.h2database/h2
+	testCompile group: 'com.h2database', name: 'h2', version: '1.4.188'
 	
 	// https://mvnrepository.com/artifact/mysql/mysql-connector-java
 	// https://mvnrepository.com/artifact/mysql/mysql-connector-java

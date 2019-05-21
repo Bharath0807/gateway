@@ -113,6 +113,6 @@
 		
 		<addForeignKeyConstraint constraintName="COST_FREIGHT_CUSTOMER_TYPE"
 			referencedTableName="freight_customer" baseColumnNames="FREIGHT_FK"
-			baseTableName="cost" referencedColumnNames="FREIGHT_FK" />
+			baseTableName="cost" referencedColumnNames="FREIGHT_CUSTOMER_PK" />
 	</changeSet>
 </databaseChangeLog>

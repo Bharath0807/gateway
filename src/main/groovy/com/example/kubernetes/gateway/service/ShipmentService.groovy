@@ -36,21 +36,27 @@ class ShipmentService {
 		def cost = costRepository.getCostForUserContract(data.productWeight.asType(Long),user.customerType.typeName)
 
 		//fetching all the contracts
-		def allCost = costRepository.getShipmentCosts(data.productWeight.asType(Long),user.customerType.typeName)
-		cost.addAll(allCost);
+		if(user.customerType.typeName!='General')
+		{
+			def allCost = costRepository.getShipmentCosts(data.productWeight.asType(Long))
+			cost.addAll(allCost);
+		}
 		def retVal = calculateWeightForCost(cost, data)
 		retVal
 	}
 
-	def calculateWeightForCost(cost, data){
+	def calculateWeightForCost(cost, data) {
 		def timeWeightage = weightageForTime.get(data.deliveryTime)
 		def weightageForCostAndFeedback = weightagePercentage.get(timeWeightage)
 		def retVal = []
 		cost.each{
 			def weight = it.weightage.timeFeedback*(timeWeightage) + it.weightage.deliveryFeedback*(weightageForCostAndFeedback.get(1)/100) + it.deliveryCost*(weightageForCostAndFeedback.get(0)/100)
-			retVal.add(["orgId":it.freightCustomer.organization.id,"weight":weight,"deliveryCost":it.deliveryCost,"orgName":it.freightCustomer.organization.orgName,"FreightName":it.freightCustomer.freight.freightName,"deliveryTime":it.deliveryTime])
+			def timeFeeback = it.weightage.timeFeedback/it.weightage.totalTimeFeedback
+			def deliveryFeedback = it.weightage.deliveryFeedback/it.weightage.totalDeliveryFeedback
+			retVal.add(["orgId":it.freightCustomer.organization.id,"weight":weight,"deliveryCost":it.deliveryCost,"orgName":it.freightCustomer.organization.orgName,"freightName":it.freightCustomer.freight.freightName,"deliveryTime":it.deliveryTime, "timeFeedback":timeFeeback,"deliveryFeedback":deliveryFeedback,"type":it.freightCustomer.customerType.typeName])
 		}
-
+		retVal.sort{a, b -> a.deliveryCost <=> b.deliveryCost}
+		retVal.get(0).putAll(['isSuggested':true])
 		retVal.sort{a, b -> b.weight <=> a.weight}
 	}
 }
