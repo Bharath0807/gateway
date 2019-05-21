@@ -145,7 +145,7 @@
 		</insert>
 		<insert tableName="cost">
 			<column name="DELIVERY_TIME" value="General"></column>
-			<column name="DELIVERY_COST" value="17"></column>
+			<column name="DELIVERY_COST" value="18"></column>
 			<column name="FREIGHT_FK" value="2"></column>
 			<column name="PRODUCT_WEIGHT_FK" value="2"></column>
 			<column name="WEIGHTAGE_FK" value="5"></column>

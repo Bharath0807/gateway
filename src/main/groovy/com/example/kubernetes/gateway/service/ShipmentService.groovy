@@ -56,7 +56,7 @@ class ShipmentService {
 			retVal.add(["orgId":it.freightCustomer.organization.id,"weight":weight,"deliveryCost":it.deliveryCost,"orgName":it.freightCustomer.organization.orgName,"freightName":it.freightCustomer.freight.freightName,"deliveryTime":it.deliveryTime, "timeFeedback":timeFeeback,"deliveryFeedback":deliveryFeedback,"type":it.freightCustomer.customerType.typeName])
 		}
 		retVal.sort{a, b -> a.deliveryCost <=> b.deliveryCost}
-		retVal.get(0).putAll(['isSuggested':true])
+		retVal.get(0)?.putAll(['isSuggested':true])
 		retVal.sort{a, b -> b.weight <=> a.weight}
 	}
 }

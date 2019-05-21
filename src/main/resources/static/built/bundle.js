@@ -33544,7 +33544,9 @@ function (_React$Component2) {
   _createClass(DisplaySuggestion, [{
     key: "render",
     value: function render() {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, this.props.data.freightName), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, "$", this.props.data.deliveryCost), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, this.props.data.orgName, "(", this.props.data.type, ")"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, this.props.data.timeFeedback), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, this.props.data.deliveryTime), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, this.props.data.isSuggested ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
+        className: this.props.data.isSuggested ? "highlight-row " : ""
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, this.props.data.freightName), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, "$", this.props.data.deliveryCost), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, this.props.data.orgName, "(", this.props.data.type, ")"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, this.props.data.timeFeedback), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, this.props.data.deliveryTime), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, this.props.data.isSuggested ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         "class": "glyphicon glyphicon-ok"
       }) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         "class": "glyphicon glyphicon-remove"
@@ -33572,7 +33574,8 @@ function (_React$Component3) {
       fromAddress: '',
       toAddress: '',
       deliveryTime: '',
-      response: ''
+      response: '',
+      user: []
     };
     _this.updateProductWeight = _this.updateProductWeight.bind(_assertThisInitialized(_this));
     _this.updateFromAddress = _this.updateFromAddress.bind(_assertThisInitialized(_this));
@@ -33580,10 +33583,36 @@ function (_React$Component3) {
     _this.updateUserId = _this.updateUserId.bind(_assertThisInitialized(_this));
     _this.updateDeliveryTime = _this.updateDeliveryTime.bind(_assertThisInitialized(_this));
     _this.getSuggestion = _this.getSuggestion.bind(_assertThisInitialized(_this));
+
+    _this.getUser();
+
     return _this;
   }
 
   _createClass(Shipment, [{
+    key: "getUser",
+    value: function getUser() {
+      var _this2 = this;
+
+      fetch('/api/user', {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        }
+      }).then(function (res) {
+        return res.json();
+      }).then(function (result) {
+        console.log("Response is ", result);
+
+        _this2.setState({
+          user: result
+        });
+
+        console.log("Response in state is ", _this2.state);
+      });
+    }
+  }, {
     key: "updateProductWeight",
     value: function updateProductWeight(e) {
       this.setState({
@@ -33621,37 +33650,71 @@ function (_React$Component3) {
   }, {
     key: "render",
     value: function render() {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        "class": "col-sm-6"
-      }, "User Id"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        "class": "form-control",
-        type: "text",
-        value: this.state.userId,
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+        "class": ""
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        "class": "form-section"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        "class": "field-rows"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        "class": "field-section"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        "class": "field-label"
+      }, "User Id"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        "class": "field-input"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+        className: "form-control",
         onChange: this.updateUserId
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        "class": "col-sm-6"
-      }, "Product weight"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "Select the user"), this.state.user.map(function (msgTemplate) {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          key: msgTemplate.id,
+          value: msgTemplate.id
+        }, msgTemplate.name);
+      })))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        "class": "field-section"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        "class": "field-label"
+      }, "Product weight"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        "class": "field-input"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
-        "class": "form-control",
+        "class": "text-input",
         value: this.state.productWeight,
         onChange: this.updateProductWeight
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        "class": "col-sm-6"
-      }, "From Address"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      })))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        "class": "field-rows"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        "class": "field-section"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        "class": "field-label"
+      }, "From Address"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        "class": "field-input"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
-        "class": "form-control",
+        "class": "text-input",
         value: this.state.fromAddress,
         onChange: this.updateFromAddress
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        "class": "col-sm-6"
-      }, "To Address"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        "class": "field-section"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        "class": "field-label"
+      }, "To Address"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        "class": "field-input"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
-        "class": "form-control",
+        "class": "text-input",
         value: this.state.toAddress,
         onChange: this.updateToAddress
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        "class": "col-sm-6"
-      }, "Select the delivery time:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+      })))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        "class": "field-rows"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        "class": "field-section"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        "class": "field-label"
+      }, "Select the delivery time:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        "class": "field-input"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+        "class": "select-input",
         value: this.state.deliveryTime,
         onChange: this.updateDeliveryTime
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
@@ -33660,19 +33723,20 @@ function (_React$Component3) {
         value: "Tomorrow"
       }, "Tomorrow"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "General"
-      }, "General")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      }, "General"))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        "class": "result-button field-rows"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         type: "button",
         onClick: this.getSuggestion
-      }, "Get Suggestions"), this.state.response ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Suggestion, {
+      }, "Get Suggestions"))), this.state.response ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Suggestion, {
         data: this.state
       }) : null);
     }
   }, {
     key: "getSuggestion",
     value: function getSuggestion() {
-      var _this2 = this;
+      var _this3 = this;
 
-      console.log("Shipment Suggestion", this.state);
       fetch('/api/shipment/suggestions', {
         method: 'PUT',
         headers: {
@@ -33683,11 +33747,9 @@ function (_React$Component3) {
       }).then(function (res) {
         return res.json();
       }).then(function (result) {
-        _this2.setState({
+        _this3.setState({
           response: result
         });
-
-        console.log("Response is ", result);
       });
     }
   }]);
