@@ -11,7 +11,7 @@ spring:
   url: jdbc:h2:mem:test;MODE=MYSQL;DB_CLOSE_ON_EXIT=FALSE;DB_CLOSE_DELAY=-1;
   driverClassName: org.h2.Driver
   platform: h2
-  username: 
+  username: sa
   password: 
  jpa:
    database-platform: org.hibernate.dialect.H2Dialect
@@ -26,4 +26,3 @@ spring:
      hibernate.cache.use_second_level_cache: false
      hibernate.cache.use_query_cache: false
      hibernate.generate_statistics: true
-     hibernate.hbm2ddl.auto: validate
